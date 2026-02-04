@@ -200,7 +200,9 @@ body {
     padding: 2rem;
     margin-top: auto;
 }
-
+.header-links{
+    display: none;
+}
 @media (min-width: 768px) {
     .header-links {
         display: block;
@@ -217,5 +219,9 @@ body {
         text-decoration: none;
         font-size: 0.95rem;
         font-weight: 600;
+    }
+
+    .sandwich-menu{
+    display: none;
     }
 }
