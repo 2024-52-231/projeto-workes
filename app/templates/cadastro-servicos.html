@@ -1,55 +1,229 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="pt-br">
 <head>
     <meta charset="UTF-8">
-    <title>Cadastrar de Prestador</title>
-    <link rel="stylesheet" href="/static/css/styles-cadastro.css">
-    <link rel="shortcut icon" href="{{url_for('static', filename='img/workes.ico')}}" type="image/x-icon">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700&display=swap" rel="stylesheet">
-</head>
-
-<body>
-<header class="site-header">
-    <div class="header-content">
-        <h2 style="color:white;">Cadastro de Prestador</h2>
-        <a href="{{ url_for('dashboard') }}" style="color:white; text-decoration:none;">Voltar</a>
-
-    </div>
-</header>
-
-<main class="form-container">
-    <h3 class="titulo-cadastro-prestador">Informe as seguintes informações para concluir o cadastro:</h3>
-    <form method="POST" class="caixinha" style="max-width:600px; flex-direction: column;">
-        <input type="text" name="nome" placeholder="Nome do serviço" required>
-        <input type="text" name="local" placeholder="Local" required>        <label>Telefone:</label>
-        <input type="text" name="telefone">
-        <label>Link (site, instagram, whatsapp):</label>
-        <input type="text" name="link">
-
-        <textarea name="descricao" placeholder="Descrição" required></textarea>
-        <button style="border-radius:10px;" type="submit">Cadastrar</button>
-    </form>
-
-    {% if sucesso %}
-    <div id="modal-sucesso" class="modal-overlay">
-        <div class="modal-content">
-            <span class="close-button" onclick="document.getElementById('modal-sucesso').style.display='none'">&times;</span>
-            <div class="icon-check">✅</div>
-            <h2>Sucesso!</h2>
-            <p>{{ sucesso }}</p>
-            <button class="btn-ok" onclick="document.getElementById('modal-sucesso').style.display='none'">OK</button>
-        </div>
-    </div>
-    {% endif %}
-    <script>
-        const modal = document.getElementById('modal-sucesso');
-        if (modal) {
-            setTimeout(() => {
-                modal.style.display = 'none';
-            }, 3000);
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastro de Prestador</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        :root {
+            --dark-blue: #163252;
+            --vibrant-orange: #FF8C00;
+            --soft-orange: #FFF4E6;
+            --text-gray: #666;
+            --bg-light: #f8f9fa;
+            --border-color: #e0e0e0;
         }
-    </script>
-</main>
 
+        body {
+            margin: 0;
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--bg-light);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        /* Header */
+        .header {
+            width: 100%;
+            background-color: var(--dark-blue);
+            padding: 20px 0;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            color: white;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+
+        .header h1 {
+            margin: 0;
+            font-size: 1.5rem;
+            font-weight: 600;
+        }
+
+        .btn-back {
+            color: white;
+            text-decoration: none;
+            font-size: 0.9rem;
+            padding: 8px 20px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 8px;
+            transition: all 0.3s;
+        }
+
+        .btn-back:hover {
+            background: var(--vibrant-orange);
+            border-color: var(--vibrant-orange);
+        }
+
+        /* Card de Formulário */
+        .form-card {
+            background: white;
+            width: 90%;
+            max-width: 600px;
+            margin: 40px 0;
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+            border: 1px solid #eee;
+        }
+
+        .form-card h2 {
+            color: #333;
+            font-size: 1.1rem;
+            margin-bottom: 25px;
+            text-align: left;
+        }
+
+        .form-group {
+            margin-bottom: 18px;
+            text-align: left;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: var(--dark-blue);
+            margin-bottom: 8px;
+        }
+
+        .form-group input, .form-group textarea {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1.5px solid var(--border-color);
+            border-radius: 10px;
+            font-family: 'Poppins', sans-serif;
+            font-size: 0.95rem;
+            box-sizing: border-box;
+            transition: border-color 0.3s, box-shadow 0.3s;
+        }
+
+        .form-group input:focus, .form-group textarea:focus {
+            outline: none;
+            border-color: var(--vibrant-orange);
+            box-shadow: 0 0 0 4px var(--soft-orange);
+        }
+
+        .section-title {
+            color: var(--vibrant-orange);
+            font-size: 1rem;
+            font-weight: 600;
+            margin: 25px 0 15px 0;
+            border-bottom: 2px solid var(--soft-orange);
+            display: inline-block;
+        }
+
+        /* Botão Cadastrar */
+        .btn-submit {
+            width: 100%;
+            background-color: var(--vibrant-orange);
+            color: white;
+            border: none;
+            padding: 15px;
+            border-radius: 12px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s, background-color 0.3s;
+            margin-top: 20px;
+        }
+
+        .btn-submit:hover {
+            background-color: #e67e00;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(255, 140, 0, 0.3);
+        }
+
+        @media (max-width: 480px) {
+            .form-card { padding: 25px; }
+        }
+    </style>
+</head>
+<body>
+
+    <header class="header">
+        <h1>Cadastro de Prestador</h1>
+        <a href="#" class="btn-back">Voltar</a>
+    </header>
+
+    <main class="form-card">
+        <h2>Informe as seguintes informações para concluir o cadastro:</h2>
+
+        <form>
+            <div class="form-group">
+                <input type="text" placeholder="Nome do serviço">
+            </div>
+
+            <div class="section-title">Endereço</div>
+
+            <div class="form-group">
+                <input type="text" id="cep" placeholder="CEP">
+            </div>
+
+            <div class="form-group">
+                <input type="text" id="log" placeholder="Logradouro">
+            </div>
+
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+                <div class="form-group">
+                    <input type="text" id="cidade" placeholder="Cidade">
+                </div>
+                <div class="form-group">
+                    <input type="text" id="uf" placeholder="Estado">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <input type="text" placeholder="Número">
+            </div>
+
+            <div class="form-group">
+                <label>Telefone:</label>
+                <input type="tel" placeholder="(00) 00000-0000">
+            </div>
+
+            <div class="form-group">
+                <label>Link (site, instagram, whatsapp):</label>
+                <input type="url" placeholder="https://...">
+            </div>
+
+            <div class="form-group">
+                <textarea rows="4" placeholder="Descrição"></textarea>
+            </div>
+
+            <button type="submit" class="btn-submit">Cadastrar</button>
+        </form>
+    </main>
+
+    <script>
+        document.getElementById("cep").addEventListener("change", async function(e){
+            var valor = e.target.value;
+
+            if (valor.length < 8) return;
+
+            try{
+                var resposta = await fetch(`https://viacep.com.br/ws/${valor}/json/`)
+
+                if (resposta.ok){
+                    var data = await resposta.json()
+
+                    if (data.erro){
+                        alert("O cep não foi encontrado");
+                        return
+                    }
+
+                    document.getElementById("log").value = data.logradouro
+                    document.getElementById("cidade").value = data.localidade
+                    document.getElementById("uf").value = data.uf
+                }
+            }catch (ex){
+                alert(ex);
+            }
+        });
+    </script>
 </body>
 </html>
