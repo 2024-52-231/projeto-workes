@@ -109,7 +109,7 @@ def logout():
 def cadastro_servicos():
     if request.method == "POST":
         nome = request.form["nome"]
-        local = request.form["local"]
+        local = f"{request.form['cidade']} - {request.form['uf']}"
         descricao = request.form["descricao"]
         telefone = request.form.get("telefone")
         link = request.form.get("link")
