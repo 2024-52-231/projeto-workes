@@ -23,9 +23,13 @@ class Usuario(UserMixin, db.Model):
     id = db.Column(db.Integer, primary_key=True)
     email = db.Column(db.String(120), unique=True, nullable=False)
     senha = db.Column(db.String(120), nullable=False)
+<<<<<<< Updated upstream
     nome = db.Column(db.String(100), nullable=False)
     descricao = db.Column(db.Text, nullable=False)
     telefone = db.Column(db.String(20))
+=======
+    descricao = db.Column(db.String, nullable=True)
+>>>>>>> Stashed changes
 
 
 class Servico(db.Model):
@@ -65,13 +69,14 @@ def registrar():
     if request.method == "POST":
         email = request.form["email"]
         senha = request.form["senha"]
+        nome = request.form["nome"]
 
         if Usuario.query.filter_by(email=email).first():
             return render_template("registrar.html", erro="Este e-mail já está em uso.")
 
         senha_hash = bcrypt.generate_password_hash(senha).decode("utf-8")
 
-        novo = Usuario(email=email, senha=senha_hash)
+        novo = Usuario(email=email, senha=senha_hash, nome=nome)
         db.session.add(novo)
         db.session.commit()
 
@@ -85,6 +90,7 @@ def login():
     if request.method == "POST":
         email = request.form["email"]
         senha = request.form["senha"]
+
 
         user = Usuario.query.filter_by(email=email).first()
 
