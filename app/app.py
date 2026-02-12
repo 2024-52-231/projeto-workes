@@ -213,5 +213,22 @@ def prestador(id):
     return render_template("prestador.html", usuario=resposta)
 
 
+@app.route("/servicos")
+def servicos():
+    # servicos = Servico.query.filter_by("usuario_id" == current_user.id)
+
+    return render_template("servicos.html")
+
+
+
+
+
+
+
+
+
+
+
+
 if __name__ == "__main__":
     app.run(debug=True)
