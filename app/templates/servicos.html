@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/servicos.css') }}">
+<title>Meus Workes</title>
+</head>
+<body>
+
+<header class="site-header">
+    <div class="header-content">
+        <div class="logo">
+            <img class="logo-imagem" src="../static/img/icone-site.png" height="75" width="75"/>
+        </div>
+        <nav class="header-links">
+            <ul>
+                <li><a href="{{ url_for('dashboard') }}">Dashboard</a></li>
+                <li><a href="{{ url_for('servicos') }}">Meus Workes</a></li>
+                <li><a href="{{ url_for('sobre') }}">Sobre</a></li>
+                <li><a href="{{ url_for('contato') }}">Contato</a></li>
+                <li><a href="{{ url_for('logout') }}">Sair</a></li>
+
+            </ul>
+        </nav>
+    </div>
+</header>
+
+<div class="titulo">Meus Workes</div>
+
+<section class="container">
+
+    <div class="card">
+        <h3>Instalação Elétrica Residencial</h3>
+        <p>Realizo instalação completa com segurança e garantia.</p>
+        <div class="info">Publicado em: 10/02/2026</div>
+        <button class="btn">Editar</button>
+    </div>
+
+    <div class="card">
+        <h3>Manutenção Hidráulica</h3>
+        <p>Conserto vazamentos, troca de torneiras e encanamentos.</p>
+        <div class="info">Publicado em: 05/02/2026</div>
+        <button class="btn">Editar</button>
+    </div>
+
+    <div class="card">
+        <h3>Pintura Comercial</h3>
+        <p>Serviço profissional com acabamento de qualidade.</p>
+        <div class="info">Publicado em: 01/02/2026</div>
+        <button class="btn">Editar</button>
+    </div>
+
+</section>
+
+<footer>
+
+</footer>
+
+</body>
+</html>
