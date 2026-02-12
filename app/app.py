@@ -23,13 +23,8 @@ class Usuario(UserMixin, db.Model):
     id = db.Column(db.Integer, primary_key=True)
     email = db.Column(db.String(120), unique=True, nullable=False)
     senha = db.Column(db.String(120), nullable=False)
-<<<<<<< Updated upstream
     nome = db.Column(db.String(100), nullable=False)
-    descricao = db.Column(db.Text, nullable=False)
-    telefone = db.Column(db.String(20))
-=======
     descricao = db.Column(db.String, nullable=True)
->>>>>>> Stashed changes
 
 
 class Servico(db.Model):
@@ -91,7 +86,6 @@ def login():
         email = request.form["email"]
         senha = request.form["senha"]
 
-
         user = Usuario.query.filter_by(email=email).first()
 
         if user and bcrypt.check_password_hash(user.senha, senha):
@@ -115,7 +109,7 @@ def logout():
 def cadastro_servicos():
     if request.method == "POST":
         nome = request.form["nome"]
-        local = request.form["local"]
+        local = f"{request.form['cidade']} - {request.form['uf']}"
         descricao = request.form["descricao"]
         telefone = request.form.get("telefone")
         link = request.form.get("link")
@@ -132,9 +126,8 @@ def cadastro_servicos():
 
         db.session.add(novo)
         db.session.commit()
-        return render_template("cadastro-servicos.html", sucesso="Serviço cadastrado!")
 
-    return render_template("cadastro-servicos.html")
+    return render_template("cadastro-servicos.html", sucesso="Serviço cadastrado!")
 
 
 @app.route("/editar/<int:id>", methods=["GET", "POST"])
@@ -189,9 +182,11 @@ def buscar():
 def sobre():
     return render_template("sobre.html")
 
+
 @app.route("/contato")
 def contato():
     return render_template("contato.html")
+
 
 @app.route("/add", methods=["POST"])
 def add():
@@ -216,6 +211,7 @@ def prestador(id):
     except:
         resposta = "not found"
     return render_template("prestador.html", usuario=resposta)
+
 
 if __name__ == "__main__":
     app.run(debug=True)
