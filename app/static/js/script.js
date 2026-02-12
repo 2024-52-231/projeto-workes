@@ -34,9 +34,10 @@ document.getElementById("search-form").addEventListener("submit", async (e) => {
                 <h3>${item.nome}</h3>
                 <p class="location">${item.local}</p>
                 <p class="description">${item.descricao}</p>
-
-                ${ logado ? `<a href="/editar/${item.id}" class="edit-btn">Editar</a>` : "" }
-            </div>
-        `;
+                <p><b> TELEFONE:</b> ${item.telefone} </p>
+                <p>${item.link}</p>
+               <a href="${item.link}" target="_blank">Acesse o site</a>
+            </div>`
     });
-});
+
+})
