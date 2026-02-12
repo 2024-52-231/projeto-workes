@@ -135,6 +135,9 @@ def cadastro_servicos():
 def editar_servico(id):
     servico = Servico.query.get_or_404(id)
 
+    if servico.usuario_id != current_user.id:
+        return redirect(url_for("dashboard"))
+
     if request.method == "POST":
         servico.nome = request.form["nome"]
         servico.local = request.form["local"]
