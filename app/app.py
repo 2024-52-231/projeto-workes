@@ -162,6 +162,12 @@ def index():
 def dashboard():
     return render_template("dashboard.html")
 
+@app.route("/meus-workes")
+@login_required
+def meus_workes():
+    resultados = Servico.query.filter_by(usuario_id=current_user.id).all()
+
+    return render_template("meus-workes.html", servicos=resultados)
 
 @app.route("/inicio")
 def inicio():
