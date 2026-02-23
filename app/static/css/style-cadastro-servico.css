@@ -108,7 +108,7 @@
             display: inline-block;
         }
 
-        /* Botão Cadastrar */
+
         .btn-submit {
             width: 100%;
             background-color: var(--vibrant-orange);
@@ -133,21 +133,21 @@
             .form-card { padding: 25px; }
         }
 
-        .modal-overlay {
-    position: fixed;
+ .modal-overlay {
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
     background-color: rgba(0, 0, 0, 0.6);
-    display: flex;
+    display: none;
+    position: fixed;
     justify-content: center;
     align-items: center;
     z-index: 1000;
 }
 
-
 .modal-content {
+    display: block;
     background-color: white;
     padding: 30px;
     border-radius: 15px;

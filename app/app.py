@@ -110,6 +110,8 @@ def logout():
 @app.route("/cadastro-servicos", methods=["GET", "POST"])
 @login_required
 def cadastro_servicos():
+    sucesso = None
+
     if request.method == "POST":
         nome = request.form["nome"]
         local = f"{request.form['cidade']} - {request.form['uf']}"
@@ -130,8 +132,11 @@ def cadastro_servicos():
         db.session.add(novo)
         db.session.commit()
 
-    return render_template("cadastro-servicos.html", sucesso="Serviço cadastrado!")
 
+        sucesso = "Serviço cadastrado com sucesso."
+
+
+    return render_template("cadastro-servicos.html", sucesso=sucesso)
 
 @app.route("/editar/<int:id>", methods=["GET", "POST"])
 @login_required

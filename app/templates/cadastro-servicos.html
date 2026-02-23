@@ -63,50 +63,55 @@
 
         <button type="submit" class="btn-submit">Cadastrar</button>
     </form>
+</form>
+
     {% if sucesso %}
-    <div id="modal-sucesso" class="modal-overlay">
-        <div class="modal-content">
-            <span class="close-button"
-                  onclick="document.getElementById('modal-sucesso').style.display='none'">&times;</span>
-            <div class="icon-check">✅</div>
-            <h2>Sucesso!</h2>
-            <p>{{ sucesso }}</p>
-            <button class="btn-ok" onclick="document.getElementById('modal-sucesso').style.display='none'">OK</button>
+        <div id="modal-sucesso" class="modal-overlay" style="display: flex;">
+            <div class="modal-content" style="display: block;">
+                <span class="close-button" onclick="fecharModal()">&times;</span>
+                <div class="icon-check">✅</div>
+                <h2>Sucesso!</h2>
+                <p>{{ sucesso }}</p>
+                <button class="btn-ok" type="button" onclick="fecharModal()">OK</button>
+            </div>
         </div>
-    </div>
     {% endif %}
 </main>
 
 <script>
-     const modal = document.getElementById('modal-sucesso');
+    // 2. Função para fechar o modal
+    function fecharModal() {
+        const modal = document.getElementById('modal-sucesso');
         if (modal) {
-            setTimeout(() => {
-                modal.style.display = 'none';
-            }, 3000);
+            modal.style.display = 'none';
         }
+    }
 
+    // 3. Auto-fechar se houver sucesso (Jinja injeta o timer apenas se necessário)
+    {% if sucesso %}
+        setTimeout(fecharModal, 3000);
+    {% endif %}
+
+    // 4. Lógica do CEP
     document.getElementById("cep").addEventListener("change", async function(e){
-        var valor = e.target.value;
+        const valor = e.target.value.replace(/\D/g, '');
 
-        if (valor.length < 8) return;
+        if (valor.length !== 8) return;
 
-        try{
-            var resposta = await fetch(`https://viacep.com.br/ws/${valor}/json/`)
-
-            if (resposta.ok){
-                var data = await resposta.json()
-
-                if (data.erro){
-                    alert("O cep não foi encontrado");
-                    return
+        try {
+            const resposta = await fetch(`https://viacep.com.br/ws/${valor}/json/`);
+            if (resposta.ok) {
+                const data = await resposta.json();
+                if (data.erro) {
+                    alert("O CEP não foi encontrado");
+                    return;
                 }
-
-                document.getElementById("log").value = data.logradouro
-                document.getElementById("cidade").value = data.localidade
-                document.getElementById("uf").value = data.uf
+                document.getElementById("log").value = data.logradouro;
+                document.getElementById("cidade").value = data.localidade;
+                document.getElementById("uf").value = data.uf;
             }
-        }catch (ex){
-            alert(ex);
+        } catch (ex) {
+            console.error("Erro na busca do CEP:", ex);
         }
     });
 </script>
