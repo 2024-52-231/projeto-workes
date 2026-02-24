@@ -26,6 +26,7 @@ body {
 }
 
 .site-header {
+    width: 100%;
     background-color: var(--primary-blue);
     color: white;
     padding: 0.75rem 2rem;
