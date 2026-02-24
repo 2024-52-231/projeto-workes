@@ -120,7 +120,7 @@ def cadastro_servicos():
 
     if request.method == "POST":
         nome = request.form["nome"]
-        local = "{request.form['cidade']} - {request.form['uf']}"
+        local = f"{request.form['cidade']} - {request.form['uf']}"
         cep = request.form["cep"]
         logradouro = request.form["logradouro"]
         cidade = request.form['cidade']
