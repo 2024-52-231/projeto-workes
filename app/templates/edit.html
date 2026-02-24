@@ -4,66 +4,87 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Editar Serviço</title>
-    <link rel="shortcut icon" href="{{url_for('static', filename='img/workes.ico')}}" type="image/x-icon">
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style-cadastro-servico.css') }}">
+
 </head>
 <body>
 
-<header class="site-header">
-    <div class="header-content">
-        <h2 style="color: white;">Editar Serviço</h2>
-        <a href="{{ url_for('logout') }}" style="color: white; text-decoration: none;">Logout</a>
-    </div>
+<header class="header">
+    <h1>Editar serviço</h1>
+    <a href="{{ url_for('dashboard') }}" class="btn-back-link">
+        <img src="{{ url_for('static', filename='img/seta_voltar.png') }}" alt="Página Principal">
+    </a>
 </header>
 
-<div class="results-container">
+<main class="form-card">
+    <h2>Editar serviço</h2>
 
-    <div class="result-item" style="padding: 2rem;">
-        <h2>Editar Serviço</h2>
-        <form method="POST">
+    <form method="POST">
+        <div class="form-group">
+            <input type="text" name="nome" placeholder="Nome do serviço" value="{{ servico.nome }}" required>
+        </div>
 
-            <label for="nome">Nome do serviço:</label>
-            <input
-                type="text"
-                name="nome"
-                id="nome"
-                value="{{ servico.nome }}"
-                style="width: 100%; padding: 0.8rem; margin-bottom: 1rem; border: 1px solid #ccc; border-radius: 8px;"
-                required
-            >
+        <div class="form-group">
+            <input type="text" id="cep" name="cep" placeholder="CEP" value="{{ servico.cep }}" required>
+        </div>
 
-            <label for="local">Local:</label>
-            <input
-                type="text"
-                name="local"
-                id="local"
-                value="{{ servico.local }}"
-                style="width: 100%; padding: 0.8rem; margin-bottom: 1rem; border: 1px solid #ccc; border-radius: 8px;"
-                required
-            >
+        <div class="form-group">
+            <input type="text" id="log" name="logradouro" placeholder="Logradouro" value="{{ servico.logradouro }}" required>
+        </div>
 
-            <label for="descricao">Descrição:</label>
-            <textarea
-                name="descricao"
-                id="descricao"
-                rows="5"
-                style="width: 100%; padding: 0.8rem; margin-bottom: 1rem; border: 1px solid #ccc; border-radius: 8px;"
-                required>{{ servico.descricao }}</textarea>
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+            <div class="form-group">
+                <input type="text" id="cidade" name="cidade" placeholder="Cidade" value="{{ servico.cidade }}" required>
+            </div>
+            <div class="form-group">
+                <input type="text" id="uf" name="uf" placeholder="Estado" value="{{ servico.estado }}" required>
+            </div>
+        </div>
 
-            <button
-                type="submit"
-                style="background-color: var(--accent-orange); color: white; padding: 0.8rem 2rem; border: none; border-radius: 6px; cursor: pointer; font-size: 1rem;">
-                Salvar Alterações
-            </button>
+        <div class="form-group">
+            <input type="text" name="numero" placeholder="Número" value="{{ servico.numero }}" required>
+        </div>
 
-        </form>
-    </div>
+        <div class="form-group">
+            <label>Telefone:</label>
+            <input type="tel" name="telefone" placeholder="(00) 00000-0000" value="{{ servico.telefone }}">
+        </div>
 
-</div>
+        <div class="form-group">
+            <label>Link (site, instagram, whatsapp):</label>
+            <input type="url" name="link" placeholder="https://..." value="{{ servico.link }}">
+        </div>
 
-<footer class="site-footer">
-    <p>&copy; 2025 - Seu Site</p>
-</footer>
+        <div class="form-group">
+            <textarea rows="4" name="descricao" placeholder="Descrição"  required>{{ servico.descricao }}</textarea>
+        </div>
 
+        <button type="submit" class="btn-submit">Salvar Alterações</button>
+    </form>
+</main>
+<script>
+    document.getElementById("cep").addEventListener("change", async function(e){
+        const valor = e.target.value.replace(/\D/g, '');
+
+        if (valor.length !== 8) return;
+
+        try {
+            const resposta = await fetch(`https://viacep.com.br/ws/${valor}/json/`);
+            if (resposta.ok) {
+                const data = await resposta.json();
+                if (data.erro) {
+                    alert("O CEP não foi encontrado");
+                    return;
+                }
+                document.getElementById("log").value = data.logradouro;
+                document.getElementById("cidade").value = data.localidade;
+                document.getElementById("uf").value = data.uf;
+            }
+        } catch (ex) {
+            console.error("Erro na busca do CEP:", ex);
+        }
+    });
+</script>
 </body>
 </html>

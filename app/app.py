@@ -34,6 +34,12 @@ class Servico(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     nome = db.Column(db.String(150), nullable=False)
     local = db.Column(db.String(150), nullable=False)
+    cep = db.Column(db.String(8), nullable=False)
+    logradouro = db.Column(db.String(150), nullable=False)
+    cidade = db.Column(db.String(100), nullable=False)
+    estado = db.Column(db.String(2), nullable=False)
+    numero = db.Column(db.String(7), nullable=False)
+
     descricao = db.Column(db.Text, nullable=False)
     telefone = db.Column(db.String(20))
     link = db.Column(db.String(255))
@@ -114,7 +120,12 @@ def cadastro_servicos():
 
     if request.method == "POST":
         nome = request.form["nome"]
-        local = f"{request.form['cidade']} - {request.form['uf']}"
+        local = "{request.form['cidade']} - {request.form['uf']}"
+        cep = request.form["cep"]
+        logradouro = request.form["logradouro"]
+        cidade = request.form['cidade']
+        estado = request.form['uf']
+        numero = request.form['numero']
         descricao = request.form["descricao"]
         telefone = request.form.get("telefone")
         link = request.form.get("link")
@@ -123,6 +134,11 @@ def cadastro_servicos():
         novo = Servico(
             nome=nome,
             local=local,
+            cep=cep,
+            logradouro=logradouro,
+            cidade=cidade,
+            estado=estado,
+            numero=numero,
             descricao=descricao,
             telefone=telefone,
             link=link,
@@ -148,11 +164,18 @@ def editar_servico(id):
 
     if request.method == "POST":
         servico.nome = request.form["nome"]
-        servico.local = request.form["local"]
+        servico.local = f"{request.form['cidade']} - {request.form['uf']}"
+        servico.cep = request.form["cep"]
+        servico.logradouro = request.form["logradouro"]
+        servico.cidade = request.form['cidade']
+        servico.estado = request.form['uf']
+        servico.numero = request.form['numero']
+        servico.telefone = request.form.get("telefone")
+        servico.link = request.form.get("link")
         servico.descricao = request.form["descricao"]
 
         db.session.commit()
-        return redirect(url_for("index"))
+        return redirect(url_for("meus_workes"))
 
     return render_template("edit.html", servico=servico)
 
