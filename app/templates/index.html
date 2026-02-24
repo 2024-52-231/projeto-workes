@@ -9,28 +9,7 @@
 </head>
 <body>
 
-<header class="site-header">
-    <div class="header-content">
-        <div class="logo">
-            <img class="logo-imagem" src="../static/img/icone-site.png" height="75" width="75"/>
-        </div>
-
-         <button id="sandwich-menu" class="sandwich-menu">
-            <span></span>
-            <span></span>
-            <span></span>
-        </button>
-
-        <nav class="header-links">
-            <ul>
-                <li><a href="{{ url_for('sobre') }}">Sobre</a></li>
-                <li><a href="{{ url_for('contato') }}">Contato</a></li>
-                <li><a href="{{ url_for('login') }}">Login</a></li>
-                <li><a href="{{ url_for('registrar') }}">Cadastro de Prestador</a></li>
-            </ul>
-        </nav>
-    </div>
-</header>
+{% include "components/header.html" %}
 
 <nav id="nav-drawer" class="nav-drawer">
     <ul>
