@@ -9,24 +9,7 @@
 </head>
 <body>
 
-<header class="site-header">
-    <div class="header-content">
-        <button id="sandwich-menu" class="sandwich-menu">
-            <span></span>
-            <span></span>
-            <span></span>
-        </button>
-
-        <nav class="header-links">
-            <ul>
-                <li><a href="{{ url_for('sobre') }}">Sobre</a></li>
-                <li><a href="#">Contato</a></li>
-                <li><a href="{{ url_for('cadastro_servicos') }}">Cadastrar Serviços</a></li>
-                <li><a href="{{ url_for('logout') }}">Sair</a></li>
-            </ul>
-        </nav>
-    </div>
-</header>
+{% include "components/header.logado.html" %}
 
 <nav id="nav-drawer" class="nav-drawer">
     <ul>

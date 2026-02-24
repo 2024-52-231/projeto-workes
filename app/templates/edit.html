@@ -10,12 +10,7 @@
 </head>
 <body>
 
-<header class="header">
-    <h1>Editar serviço</h1>
-    <a href="{{ url_for('dashboard') }}" class="btn-back-link">
-        <img src="{{ url_for('static', filename='img/seta_voltar.png') }}" alt="Página Principal">
-    </a>
-</header>
+{% include "components/header.logado.html" %}
 
 <main class="form-card">
     <h2>Editar serviço</h2>
