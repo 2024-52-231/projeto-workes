@@ -6,7 +6,7 @@
     <title>Editar Serviço</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style-cadastro-servico.css') }}">
-<link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 
 </head>
 <body>
@@ -26,7 +26,8 @@
         </div>
 
         <div class="form-group">
-            <input type="text" id="log" name="logradouro" placeholder="Logradouro" value="{{ servico.logradouro }}" required>
+            <input type="text" id="log" name="logradouro" placeholder="Logradouro" value="{{ servico.logradouro }}"
+                   required>
         </div>
 
         <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
@@ -53,14 +54,14 @@
         </div>
 
         <div class="form-group">
-            <textarea rows="4" name="descricao" placeholder="Descrição"  required>{{ servico.descricao }}</textarea>
+            <textarea rows="4" name="descricao" placeholder="Descrição" required>{{ servico.descricao }}</textarea>
         </div>
 
         <button type="submit" class="btn-submit">Salvar Alterações</button>
     </form>
 </main>
 <script>
-    document.getElementById("cep").addEventListener("change", async function(e){
+    document.getElementById("cep").addEventListener("keyup", async function(e){
         const valor = e.target.value.replace(/\D/g, '');
 
         if (valor.length !== 8) return;
@@ -79,6 +80,12 @@
             }
         } catch (ex) {
             console.error("Erro na busca do CEP:", ex);
+        }
+    });
+
+    document.getElementById("cep").addEventListener("keydown", function(event) {
+        if (event.key === "Enter") {
+            event.preventDefault();
         }
     });
 </script>
