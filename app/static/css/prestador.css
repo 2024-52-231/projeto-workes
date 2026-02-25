@@ -1,0 +1,80 @@
+.container {
+width:100%;
+max-width:900px;
+margin:30px auto;
+}
+.perfil-header{
+border-radius:12px;
+padding:40px;
+box-shadow:0 4px 6px -1px rgba(0,0,0,0.1);
+margin-bottom:30px;
+display:flex;
+align-items:center;
+border:1px solid #eef2f7;
+}
+
+.perfil-info h1{
+font-size:1.8rem;
+color:var(--text-color);
+margin-bottom:5px;
+}
+.perfil-info p{
+color:var(--primary-blue);
+background:#eff6ff;
+padding:4px 12px;
+border-radius:20px;
+font-size:0.9rem;
+display:inline-block;
+margin-top:10px;
+border:1px solid #dbeafe;
+}
+
+.sessao-servicos{
+margin-top:40px;
+}
+.sessao-titulo{
+font-size:1.4rem;
+margin-bottom:20px;
+padding-bottom:10px;
+border-bottom:2px solid var(--primary-blue);
+display: inline-block;
+}
+.grid-servicos{
+display:grid;
+grid-template-columns:repeat(auto-fill,minmax(280px,1fr));
+gap:20px;
+}
+.card-servico{
+background: white;
+border-radius:10px;
+padding:24px;
+border:1px solid #dbeafe;
+transition:transform 0.2s,box-shadow 0.2s;
+position:relative;
+overflow:hidden;
+}
+.card-servico:hover{
+transform:translateY(-5px);
+box-shadow:0 10px 15px -3px rgba(0,0,0,0.1);
+border-color:var(--accent-orange);
+}
+.card-servico::before{
+content:"";
+position:absolute;
+top:0;
+left:0;
+width:4px;
+height:100%;
+background:var(--primary-blue);
+}
+.servico-nome{
+font-weight:bold;
+font-size:1.1rem;
+margin-bottom:8px;
+color:var(--text-color);
+}
+.servico-desc{
+font-size:0.9rem;
+color:#64748b;
+margin-bottom:15px;
+}

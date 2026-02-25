@@ -250,9 +250,10 @@ def add():
 def prestador(id):
     try:
         resposta = Usuario.query.get_or_404(id)
+        servicos = Servico.query.filter_by(usuario_id=resposta.id).all()
     except:
         resposta = "not found"
-    return render_template("prestador.html", usuario=resposta)
+    return render_template("prestador.html", usuario=resposta,servicos=servicos)
 
 
 if __name__ == "__main__":
