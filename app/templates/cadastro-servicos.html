@@ -49,7 +49,7 @@
 
         <div class="form-group">
             <label>Telefone:</label>
-            <input type="tel" name="telefone" placeholder="(00) 00000-0000" required>
+            <input type="tel" name="telefone" id="telefone" placeholder="(00) 00000-0000" required>
         </div>
 
         <div class="form-group">
@@ -63,23 +63,24 @@
 
         <button type="submit" class="btn-submit">Cadastrar</button>
     </form>
-</form>
+    </form>
 
     {% if sucesso %}
-        <div id="modal-sucesso" class="modal-overlay" style="display: flex;">
-            <div class="modal-content" style="display: block;">
-                <span class="close-button" onclick="fecharModal()">&times;</span>
-                <div class="icon-check">✅</div>
-                <h2>Sucesso!</h2>
-                <p>{{ sucesso }}</p>
-                <button class="btn-ok" type="button" onclick="fecharModal()">OK</button>
-            </div>
+    <div id="modal-sucesso" class="modal-overlay" style="display: flex;">
+        <div class="modal-content" style="display: block;">
+            <span class="close-button" onclick="fecharModal()">&times;</span>
+            <div class="icon-check">✅</div>
+            <h2>Sucesso!</h2>
+            <p>{{ sucesso }}</p>
+            <button class="btn-ok" type="button" onclick="fecharModal()">OK</button>
         </div>
+    </div>
     {% endif %}
 </main>
-
+<script src="https://unpkg.com/imask"></script>
+<script src="{{ url_for('static', filename='js/mascaras.js') }}"></script>
+<script src="{{ url_for('static', filename='js/buscaCEP.js') }}"></script>
 <script>
-    // 2. Função para fechar o modal
     function fecharModal() {
         const modal = document.getElementById('modal-sucesso');
         if (modal) {
@@ -87,33 +88,9 @@
         }
     }
 
-    // 3. Auto-fechar se houver sucesso (Jinja injeta o timer apenas se necessário)
     {% if sucesso %}
         setTimeout(fecharModal, 3000);
     {% endif %}
-
-    // 4. Lógica do CEP
-    document.getElementById("cep").addEventListener("change", async function(e){
-        const valor = e.target.value.replace(/\D/g, '');
-
-        if (valor.length !== 8) return;
-
-        try {
-            const resposta = await fetch(`https://viacep.com.br/ws/${valor}/json/`);
-            if (resposta.ok) {
-                const data = await resposta.json();
-                if (data.erro) {
-                    alert("O CEP não foi encontrado");
-                    return;
-                }
-                document.getElementById("log").value = data.logradouro;
-                document.getElementById("cidade").value = data.localidade;
-                document.getElementById("uf").value = data.uf;
-            }
-        } catch (ex) {
-            console.error("Erro na busca do CEP:", ex);
-        }
-    });
 </script>
 </body>
 </html>
