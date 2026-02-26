@@ -45,7 +45,7 @@
 
         <div class="form-group">
             <label>Telefone:</label>
-            <input type="tel" name="telefone" placeholder="(00) 00000-0000" value="{{ servico.telefone }}">
+            <input type="tel" name="telefone" id="telefone" placeholder="(00) 00000-0000" value="{{ servico.telefone }}">
         </div>
 
         <div class="form-group">
@@ -60,34 +60,8 @@
         <button type="submit" class="btn-submit">Salvar Alterações</button>
     </form>
 </main>
-<script>
-    document.getElementById("cep").addEventListener("keyup", async function(e){
-        const valor = e.target.value.replace(/\D/g, '');
-
-        if (valor.length !== 8) return;
-
-        try {
-            const resposta = await fetch(`https://viacep.com.br/ws/${valor}/json/`);
-            if (resposta.ok) {
-                const data = await resposta.json();
-                if (data.erro) {
-                    alert("O CEP não foi encontrado");
-                    return;
-                }
-                document.getElementById("log").value = data.logradouro;
-                document.getElementById("cidade").value = data.localidade;
-                document.getElementById("uf").value = data.uf;
-            }
-        } catch (ex) {
-            console.error("Erro na busca do CEP:", ex);
-        }
-    });
-
-    document.getElementById("cep").addEventListener("keydown", function(event) {
-        if (event.key === "Enter") {
-            event.preventDefault();
-        }
-    });
-</script>
+<script src="https://unpkg.com/imask"></script>
+<script src="{{ url_for('static', filename='js/mascaras.js') }}"></script>
+<script src="{{ url_for('static', filename='js/buscaCEP.js') }}"></script>
 </body>
 </html>
