@@ -31,11 +31,19 @@ document.getElementById("search-form").addEventListener("submit", async (e) => {
     servicos.forEach(item => {
         container.innerHTML += `
             <a href="/servico/${item.id}" class="result-item">
-                <h3>${item.nome}</h3>
-                <p class="location">${item.local}</p>
-                <p class="description">${item.descricao}</p>
-                <p><b> TELEFONE:</b> ${item.telefone} </p>
-                <p>${item.link}</p>
+                <div class="item-content">
+                    <div class="header-card">
+                        <h3>${item.nome}</h3>
+                        <span class="location">
+                            📍 ${item.local}
+                        </span>
+                    </div>
+                    <p class="description">${item.descricao}</p>
+                    <div class="footer-card">
+                        <span class="phone"><b>TELEFONE:</b> ${item.telefone}</span>
+                        <span class="btn-ver-mais">Ver detalhes</span>
+                    </div>
+                </div>
             </a>`
     });
 
