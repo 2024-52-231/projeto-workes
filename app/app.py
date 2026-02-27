@@ -68,6 +68,11 @@ def criar_banco():
     db.create_all()
 
 
+@app.context_processor
+def injeta_logado():
+    return dict(logado=current_user.is_authenticated)
+
+
 @app.route("/registrar", methods=["GET", "POST"])
 def registrar():
     if request.method == "POST":
@@ -99,7 +104,7 @@ def login():
 
         if user and bcrypt.check_password_hash(user.senha, senha):
             login_user(user)
-            return redirect(url_for("dashboard"))
+            return redirect(url_for("index"))
         else:
             return render_template("login.html", erro="Email ou senha incorretos")
 
@@ -148,11 +153,10 @@ def cadastro_servicos():
         db.session.add(novo)
         db.session.commit()
 
-
         sucesso = "Serviço cadastrado com sucesso."
 
-
     return render_template("cadastro-servicos.html", sucesso=sucesso)
+
 
 @app.route("/editar/<int:id>", methods=["GET", "POST"])
 @login_required
@@ -160,7 +164,7 @@ def editar_servico(id):
     servico = Servico.query.get_or_404(id)
 
     if servico.usuario_id != current_user.id:
-        return redirect(url_for("dashboard"))
+        return redirect(url_for("index"))
 
     if request.method == "POST":
         servico.nome = request.form["nome"]
@@ -185,10 +189,8 @@ def index():
     return render_template("index.html")
 
 
-@app.route("/dashboard")
-@login_required
-def dashboard():
-    return render_template("dashboard.html")
+
+
 
 @app.route("/meus-workes")
 @login_required
@@ -196,6 +198,7 @@ def meus_workes():
     resultados = Servico.query.filter_by(usuario_id=current_user.id).all()
 
     return render_template("meus-workes.html", servicos=resultados)
+
 
 @app.route("/inicio")
 def inicio():
@@ -253,7 +256,7 @@ def prestador(id):
         servicos = Servico.query.filter_by(usuario_id=resposta.id).all()
     except:
         resposta = "not found"
-    return render_template("prestador.html", usuario=resposta,servicos=servicos)
+    return render_template("prestador.html", usuario=resposta, servicos=servicos)
 
 
 if __name__ == "__main__":
