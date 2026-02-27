@@ -124,14 +124,14 @@ def cadastro_servicos():
     sucesso = None
 
     if request.method == "POST":
-        nome = request.form["nome"]
+        nome = request.form["nome"].capitalize()
         local = f"{request.form['cidade']} - {request.form['uf']}"
         cep = request.form["cep"]
         logradouro = request.form["logradouro"]
         cidade = request.form['cidade']
         estado = request.form['uf']
         numero = request.form['numero']
-        descricao = request.form["descricao"]
+        descricao = request.form["descricao"].capitalize()
         telefone = request.form.get("telefone")
         link = request.form.get("link")
         usuario_id = current_user.id
@@ -167,7 +167,7 @@ def editar_servico(id):
         return redirect(url_for("index"))
 
     if request.method == "POST":
-        servico.nome = request.form["nome"]
+        servico.nome = request.form["nome"].capitalize()
         servico.local = f"{request.form['cidade']} - {request.form['uf']}"
         servico.cep = request.form["cep"]
         servico.logradouro = request.form["logradouro"]
@@ -176,7 +176,7 @@ def editar_servico(id):
         servico.numero = request.form['numero']
         servico.telefone = request.form.get("telefone")
         servico.link = request.form.get("link")
-        servico.descricao = request.form["descricao"]
+        servico.descricao = request.form["descricao"].capitalize()
 
         db.session.commit()
         return redirect(url_for("meus_workes"))
