@@ -3,7 +3,7 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager, login_user, login_required, logout_user, UserMixin, current_user
 from flask_bcrypt import Bcrypt
 from sqlalchemy import ForeignKey
-from sqlalchemy.orm import relationship
+
 
 app = Flask(__name__)
 
@@ -39,13 +39,10 @@ class Servico(db.Model):
     cidade = db.Column(db.String(100), nullable=False)
     estado = db.Column(db.String(2), nullable=False)
     numero = db.Column(db.String(7), nullable=False)
-
     descricao = db.Column(db.Text, nullable=False)
     telefone = db.Column(db.String(20))
     link = db.Column(db.String(255))
     usuario_id = db.Column(db.Integer, ForeignKey("usuarios.id"), nullable=False)
-
-    usuario = relationship("Usuario")
 
     def to_dict(self):
         return {
