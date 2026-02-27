@@ -30,14 +30,13 @@ document.getElementById("search-form").addEventListener("submit", async (e) => {
 
     servicos.forEach(item => {
         container.innerHTML += `
-            <div class="result-item">
+            <a href="/servico/${item.id}" class="result-item">
                 <h3>${item.nome}</h3>
                 <p class="location">${item.local}</p>
                 <p class="description">${item.descricao}</p>
                 <p><b> TELEFONE:</b> ${item.telefone} </p>
                 <p>${item.link}</p>
-               <a href="${item.link}" target="_blank">Acesse o site</a>
-            </div>`
+            </a>`
     });
 
 })

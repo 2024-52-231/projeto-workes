@@ -255,6 +255,15 @@ def prestador(id):
         resposta = "not found"
     return render_template("prestador.html", usuario=resposta,servicos=servicos)
 
+@app.route("/servico/<int:id>", methods=["GET"])
+def servico(id):
+    try:
+        servico = Servico.query.get_or_404(id)
+        prestador = Usuario.query.filter_by(id=servico.usuario_id).first()
+        return render_template("pagina-servicos.html", servico=servico, prestador=prestador)
+    except:
+        servico = "not found"
+        return render_template("pagina-servicos.html", servico=servico)
 
 if __name__ == "__main__":
     app.run(debug=True)
