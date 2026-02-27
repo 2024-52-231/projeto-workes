@@ -179,6 +179,9 @@ body {
 }
 
 .result-item {
+    display:block;
+    text-decoration:none;
+    color:black;
     margin-bottom: 2rem;
     background-color: white;
     padding: 1.5rem;

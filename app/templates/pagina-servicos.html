@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Serviço</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/pagina-servicos.css') }}">
+</head>
+<body>
+{% include "components/header.html" %}
+
+
+<div class="container">
+    <div class="header">
+        <h1>Detalhamento do serviço</h1>
+    </div>
+    <div class="card">
+        <div class="info">
+            <h2>{{servico.nome}}</h2>
+            <p>{{servico.descricao}}</p>
+            <p class="localizacao">{{servico.cidade}}-{{servico.estado}}</p>
+            <a href="tel:{{ servico.telefone }}" class="botao">Ligar 📞</a>
+        </div>
+        {% if prestador %}
+        <div class="prestador">
+            {{prestador.nome}}
+        </div>
+        {% endif  %}
+    </div>
+</div>
+<footer class="site-footer">
+    <p>&copy; 2025 Workes. Todos os direitos reservados.</p>
+</footer>
+</body>
+</html>
