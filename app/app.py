@@ -265,5 +265,18 @@ def servico(id):
         servico = "not found"
         return render_template("pagina-servicos.html", servico=servico)
 
+@app.route("/deletar-servico/<int:id>", methods=["POST"])
+@login_required
+def deletar_servico(id):
+    servico = Servico.query.get_or_404(id)
+
+    if servico.usuario_id != current_user.id:
+        return redirect(url_for("index"))
+
+    db.session.delete(servico)
+    db.session.commit()
+
+    return redirect(url_for("meus_workes"))
+
 if __name__ == "__main__":
     app.run(debug=True)

@@ -16,6 +16,7 @@
 <main class="form-card">
     <h2>Editar serviço</h2>
 
+
     <form method="POST">
         <div class="form-group">
             <input type="text" name="nome" placeholder="Nome do serviço" value="{{ servico.nome }}" required>
@@ -26,42 +27,60 @@
         </div>
 
         <div class="form-group">
-            <input type="text" id="log" name="logradouro" placeholder="Logradouro" value="{{ servico.logradouro }}"
-                   required>
+            <input type="text" id="log" name="logradouro" placeholder="Logradouro"
+                   value="{{ servico.logradouro }}" required>
         </div>
 
         <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
             <div class="form-group">
-                <input type="text" id="cidade" name="cidade" placeholder="Cidade" value="{{ servico.cidade }}" required>
+                <input type="text" id="cidade" name="cidade"
+                       value="{{ servico.cidade }}" required>
             </div>
             <div class="form-group">
-                <input type="text" id="uf" name="uf" placeholder="Estado" value="{{ servico.estado }}" required>
+                <input type="text" id="uf" name="uf"
+                       value="{{ servico.estado }}" required>
             </div>
         </div>
 
         <div class="form-group">
-            <input type="text" name="numero" placeholder="Número" value="{{ servico.numero }}" required>
+            <input type="text" name="numero"
+                   value="{{ servico.numero }}" required>
         </div>
 
         <div class="form-group">
             <label>Telefone:</label>
-            <input type="tel" name="telefone" id="telefone" placeholder="(00) 00000-0000" value="{{ servico.telefone }}">
+            <input type="tel" name="telefone"
+                   value="{{ servico.telefone }}">
         </div>
 
         <div class="form-group">
-            <label>Link (site, instagram, whatsapp):</label>
-            <input type="url" name="link" placeholder="https://..." value="{{ servico.link }}">
+            <label>Link:</label>
+            <input type="url" name="link"
+                   value="{{ servico.link }}">
         </div>
 
         <div class="form-group">
-            <textarea rows="4" name="descricao" placeholder="Descrição" required>{{ servico.descricao }}</textarea>
+            <textarea rows="4" name="descricao" required>{{ servico.descricao }}</textarea>
         </div>
 
-        <button type="submit" class="btn-submit">Salvar Alterações</button>
+        <div style="display: flex; gap: 15px; margin-top: 20px; flex-direction: column;">
+            <button type="submit"
+                    style="background-color: #ff8c00; color: white; padding: 12px 20px; border: none; border-radius: 8px; cursor: pointer; ">
+                Salvar Alterações
+            </button>
+        </div>
     </form>
+
+
+    <form action="{{ url_for('deletar_servico', id=servico.id) }}"
+          method="POST"
+          onsubmit="return confirm('Tem certeza que deseja deletar este serviço?');"
+          style="margin-top: 15px; display: flex; flex-direction: column;">
+
+        <button type="submit"
+                style="background-color: #dc3545; color: white; padding: 12px 20px; border: none; border-radius: 8px; cursor: pointer; " >
+            Deletar Serviço
+        </button>
+    </form>
+
 </main>
-<script src="https://unpkg.com/imask"></script>
-<script src="{{ url_for('static', filename='js/mascaras.js') }}"></script>
-<script src="{{ url_for('static', filename='js/buscaCEP.js') }}"></script>
-</body>
-</html>
