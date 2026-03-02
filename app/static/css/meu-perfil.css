@@ -1,0 +1,169 @@
+:root {
+    --primary-color: var(--primary-blue);   /* Azul escuro principal */
+    --accent-color: #c2410c;    /* Laranja escuro (somente título) */
+    --secondary-bg: #f1f5f9;
+    --text-main:var(--primary-blue);
+    --text-muted: #64748b;
+    --border-color: #e2e8f0;
+    --white: #ffffff;
+}
+
+body {
+    background: var(--secondary-bg);
+    font-family: Arial, sans-serif;
+}
+
+/* Container */
+.profile-container {
+    max-width: 1000px;
+    width:100%;
+    margin: 30px auto;
+    padding: 0 15px;
+}
+
+/* Header */
+.profile-header {
+    margin-bottom: 20px;
+}
+
+/* 🔥 SOMENTE O TÍTULO LARANJA */
+.profile-header h1 {
+    font-size: 1.6rem;
+    margin-bottom: 4px;
+    color: var(--accent-color);
+}
+
+.profile-header p {
+    font-size: 0.9rem;
+    color: var(--text-muted);
+}
+
+/* Grid */
+.profile-grid {
+    display: grid;
+    grid-template-columns: 250px 1fr;
+    gap: 20px;
+    align-items: start;
+}
+
+/* Card */
+.card {
+    background: var(--white);
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 3px 8px rgba(0,0,0,0.05);
+    border-top: 4px solid var(--primary-color);
+}
+
+/* Avatar */
+.avatar-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.avatar-preview {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    overflow: hidden;
+    margin-bottom: 10px;
+    border: 3px solid var(--primary-color);
+}
+
+.avatar-preview img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.avatar-edit input {
+    display: none;
+}
+
+.avatar-edit label {
+    background: var(--primary-color);
+    color: white;
+    padding: 6px 14px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 0.8rem;
+    transition: 0.2s;
+    display:block;
+    text-align:center;
+
+}
+
+.avatar-edit label:hover {
+    opacity: 0.85;
+}
+
+/* Form */
+.input-group {
+    margin-bottom: 14px;
+}
+
+.input-group label {
+    display: block;
+    font-size: 0.8rem;
+    font-weight: 600;
+    margin-bottom: 4px;
+    color: var(--primary-color);
+}
+
+.input-group input,
+.input-group textarea {
+    width: 100%;
+    padding: 8px 10px;
+    font-size: 0.9rem;
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    transition: 0.2s;
+}
+
+.input-group input:focus,
+.input-group textarea:focus {
+    border-color: var(--primary-color);
+    outline: none;
+    box-shadow: 0 0 0 2px rgba(15, 23, 42, 0.1);
+}
+
+textarea {
+    resize: vertical;
+    min-height: 70px;
+}
+
+/* Título senha */
+.data-section h3 {
+    font-size: 1rem;
+    margin: 15px 0 10px 0;
+    color: var(--primary-color);
+}
+
+/* Botão */
+.actions {
+    margin-top: 15px;
+    text-align: right;
+}
+
+.btn-primary {
+    background: var(--primary-color);
+    color: white;
+    border: none;
+    padding: 8px 20px;
+    border-radius: 6px;
+    font-size: 0.85rem;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.btn-primary:hover {
+    opacity: 0.85;
+}
+
+/* Responsivo */
+@media (max-width: 768px) {
+    .profile-grid {
+        grid-template-columns: 1fr;
+    }
+}
