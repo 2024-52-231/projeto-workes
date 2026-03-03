@@ -41,7 +41,7 @@ document.getElementById("search-form").addEventListener("submit", async (e) => {
                     <p class="description">${item.descricao}</p>
                     <div class="footer-card">
                         <span class="phone"><b>TELEFONE:</b> ${item.telefone}</span>
-                        <span class="btn-ver-mais">Ver detalhes</span>
+                        <span class="btn-card">Ver detalhes</span>
                     </div>
                 </div>
             </a>`

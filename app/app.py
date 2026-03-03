@@ -286,6 +286,18 @@ def meu_perfil():
 
     return render_template("meu-perfil.html", usuario=current_user)
 
+@app.route("/deletar-servico/<int:id>", methods=["POST"])
+@login_required
+def deletar_servico(id):
+    servico = Servico.query.get_or_404(id)
+
+    if servico.usuario_id != current_user.id:
+        return redirect(url_for("index"))
+
+    db.session.delete(servico)
+    db.session.commit()
+
+    return redirect(url_for("meus_workes"))
 
 if __name__ == "__main__":
     app.run(debug=True)
