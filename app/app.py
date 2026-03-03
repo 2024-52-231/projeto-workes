@@ -4,7 +4,6 @@ from flask_login import LoginManager, login_user, login_required, logout_user, U
 from flask_bcrypt import Bcrypt
 from sqlalchemy import ForeignKey
 
-
 app = Flask(__name__)
 
 app.config["SECRET_KEY"] = "secret"
@@ -186,9 +185,6 @@ def index():
     return render_template("index.html")
 
 
-
-
-
 @app.route("/meus-workes")
 @login_required
 def meus_workes():
@@ -255,6 +251,7 @@ def prestador(id):
         resposta = "not found"
     return render_template("prestador.html", usuario=resposta, servicos=servicos)
 
+
 @app.route("/servico/<int:id>", methods=["GET"])
 def servico(id):
     try:
@@ -264,6 +261,30 @@ def servico(id):
     except:
         servico = "not found"
         return render_template("pagina-servicos.html", servico=servico)
+
+
+@app.route("/meu-perfil", methods=["GET", "POST"])
+@login_required
+def meu_perfil():
+    if request.method == "POST":
+        if current_user.email != request.form["email"]:
+            email = request.form["email"]
+            usuario_banco = Usuario.query.filter_by(email=email).first()
+            if usuario_banco:
+                return render_template("meu-perfil.html", usuario=current_user,
+                                       contexto={"mensagem": "Email ja em uso", "erro": True})
+
+        usuario = Usuario.query.filter_by(id=current_user.id).first()
+
+        usuario.nome = request.form["nome"].capitalize()
+        usuario.descricao = request.form["bio"].capitalize()
+        usuario.email = request.form["email"]
+
+        db.session.commit()
+        return render_template("meu-perfil.html", usuario=current_user,
+                               contexto={"mensagem": "Alterações aplicadas com sucesso", "erro": False})
+
+    return render_template("meu-perfil.html", usuario=current_user)
 
 @app.route("/deletar-servico/<int:id>", methods=["POST"])
 @login_required
@@ -280,3 +301,4 @@ def deletar_servico(id):
 
 if __name__ == "__main__":
     app.run(debug=True)
+
