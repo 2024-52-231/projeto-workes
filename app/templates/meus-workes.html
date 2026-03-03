@@ -11,17 +11,6 @@
 
 {% include "components/header.html" %}
 
-<nav id="nav-drawer" class="nav-drawer">
-    <ul>
-        <li><a href="{{ url_for('inicio') }}">Início</a></li>
-
-        <li><a href="#">Categorias</a></li>
-
-        <li><a href="{{ url_for('cadastro_servicos') }}">Seja um Prestador</a></li>
-
-        <li><a href="{{ url_for('sobre') }}">Ajuda</a></li>
-    </ul>
-</nav>
 
 <main id="results-container" class="results-container">
     {% if servicos %}
