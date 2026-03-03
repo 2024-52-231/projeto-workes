@@ -46,5 +46,21 @@ document.getElementById("search-form").addEventListener("submit", async (e) => {
                 </div>
             </a>`
     });
-
 })
+
+document.addEventListener('keydown', (event) => {
+    if (event.key === 'Escape') {
+        const sidebar = document.querySelector('.nav-drawer');
+        sidebar.classList.remove('open');
+    }
+});
+
+document.addEventListener('click', (event) => {
+    const sidebar = document.querySelector('.nav-drawer');
+    const btnAbrir = document.querySelector('.sandwich-menu');
+
+    // Se o clique NÃO foi na barra E NÃO foi no botão de abrir
+    if (!sidebar.contains(event.target) && !btnAbrir.contains(event.target)) {
+        sidebar.classList.remove('open');
+    }
+});
