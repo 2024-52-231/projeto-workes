@@ -181,63 +181,86 @@ body {
 .result-item {
     display: block;
     text-decoration: none;
-    color: #333;
-    background-color: #fff;
-    border-radius: 12px;
-    padding: 24px;
-    margin-bottom: 20px;
-    border: 1px solid #eee;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
-    transition: all 0.3s ease;
+    background: #ffffff;
+    border-radius: 14px;
+    padding: 28px;
+    margin-bottom: 24px;
+    border: 1px solid #eaeaea;
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.04);
+    transition: all 0.25s ease;
 }
 
-/* Efeito Hover (ao passar o mouse) */
 .result-item:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
-    border-color: #ff8c00; /* Cor laranja do seu botão */
+    transform: translateY(-6px);
+    box-shadow: 0 12px 28px rgba(0, 0, 0, 0.08);
+    border-color: var(--accent-orange);
 }
 
 .result-item h3 {
-    margin: 0;
     font-size: 1.4rem;
-    color: #ff8c00; /* Destaque no título */
+    font-weight: 700;
+    color: var(--primary-blue);
+    margin-bottom: 4px;
 }
 
 .location {
-    font-size: 0.9rem;
-    color: #777;
-    display: block;
-    margin-top: 4px;
+    font-size: 0.85rem;
+    color: #6c757d;
 }
 
 .description {
-    margin: 15px 0;
-    line-height: 1.5;
+    margin: 18px 0;
     color: #555;
-}
-
-.footer-card {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    border-top: 1px solid #f0f0f0;
-    padding-top: 15px;
-    margin-top: 10px;
-}
-
-.phone {
+    line-height: 1.6;
     font-size: 0.95rem;
 }
 
-.btn-ver-mais {
-    background-color: #ff8c00;
-    color: white;
-    padding: 8px 16px;
-    border-radius: 6px;
-    font-size: 0.85rem;
-    font-weight: bold;
+
+.footer-card {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    flex-wrap: wrap;
+    border-top: 1px solid #f1f1f1;
+    padding-top: 18px;
 }
+
+.phone {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--text-color);
+}
+
+.link-servico {
+    font-size: 0.85rem;
+    color: var(--primary-blue);
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.link-servico:hover {
+    text-decoration: underline;
+}
+
+
+.btn-card {
+    background-color: var(--accent-orange);
+    color: white;
+    padding: 9px 18px;
+    border-radius: 8px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    text-decoration: none;
+    transition: all 0.2s ease;
+}
+
+.btn-card:hover {
+    background-color: #e57d00;
+    transform: translateY(-2px);
+}
+
+
 
 .site-footer {
     background-color: var(--primary-blue);
@@ -272,3 +295,4 @@ body {
     display: none;
     }
 }
+

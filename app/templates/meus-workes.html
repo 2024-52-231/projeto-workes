@@ -26,15 +26,37 @@
 <main id="results-container" class="results-container">
     {% if servicos %}
     {% for servico in servicos %}
-    <div class="result-item">
-        <h3>{{servico.nome}}</h3>
-        <p class="location">{{servico.local}}</p>
-        <p class="description">{{servico.descricao}}</p>
-        <p><b> TELEFONE:</b> {{servico.telefone}} </p>
-        <p>{{servico.link}}</p>
-        <a href="/editar/{{servico.id}}" target="_blank">Editar</a>
+        <div class="result-item">
+
+            <div class="card-header">
+                <div>
+                    <h3>{{servico.nome}}</h3>
+                    <span class="location">{{servico.local}}</span>
+                </div>
+            </div>
+
+                <p class="description">
+                    {{servico.descricao}}
+                </p>
+
+                <div class="footer-card">
+                    <div class="phone">
+                        {{servico.telefone}}
+                    </div>
+
+                    {% if servico.link %}
+                    <a href="{{servico.link}}" target="_blank" class="link-servico">
+                        Ver site
+                    </a>
+        {% endif %}
+
+        <a href="/editar/{{servico.id}}" target="_blank" class="btn-card">
+            Editar
+        </a>
     </div>
-    {% endfor %}
+
+</div>
+{% endfor %}
     {% else %}
     <p>Nenhum servico encontrado</p>
     {% endif %}

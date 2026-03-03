@@ -16,7 +16,7 @@
             align-items: center;
         }
 
-        /* Header */
+
         .header {
             width: 100%;
             background-color: var(--dark-blue);
@@ -50,7 +50,6 @@
             border-color: var(--vibrant-orange);
         }
 
-        /* Card de Formulário */
         .form-card {
             background: white;
             width: 90%;
