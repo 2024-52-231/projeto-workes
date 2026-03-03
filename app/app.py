@@ -58,7 +58,6 @@ class Servico(db.Model):
 def load_user(user_id):
     return Usuario.query.get(int(user_id))
 
-
 @app.before_request
 def criar_banco():
     db.create_all()
@@ -68,6 +67,10 @@ def criar_banco():
 def injeta_logado():
     return dict(logado=current_user.is_authenticated)
 
+# rotas publicas
+@app.route("/")
+def index():
+    return render_template("index.html")
 
 @app.route("/registrar", methods=["GET", "POST"])
 def registrar():
@@ -106,7 +109,78 @@ def login():
 
     return render_template("login.html")
 
+@app.route("/inicio")
+def inicio():
+    return render_template("index.html")
 
+
+@app.route("/buscar", methods=["POST"])
+def buscar():
+    query = request.json.get("query", "").lower()
+
+    resultados = Servico.query.filter(
+        (db.func.lower(Servico.nome).like(f"%{query}%")) |
+        (db.func.lower(Servico.local).like(f"%{query}%")) |
+        (db.func.lower(Servico.descricao).like(f"%{query}%"))
+    ).all()
+
+    print(resultados)
+
+    return jsonify({
+        "logado": current_user.is_authenticated,
+        "servicos": [s.to_dict() for s in resultados]
+    })
+
+
+@app.route("/sobre")
+def sobre():
+    return render_template("sobre.html")
+
+
+@app.route("/contato")
+def contato():
+    return render_template("contato.html")
+
+
+@app.route("/add", methods=["POST"])
+def add():
+    data = request.json
+
+    novo = Servico(
+        nome=data["nome"],
+        local=data["local"],
+        descricao=data["descricao"]
+    )
+
+    db.session.add(novo)
+    db.session.commit()
+
+    return jsonify({"status": "ok", "mensagem": "Serviço cadastrado"})
+
+
+@app.route("/prestador/<int:id>", methods=["GET"])
+def prestador(id):
+    try:
+        resposta = Usuario.query.get_or_404(id)
+        servicos = Servico.query.filter_by(usuario_id=resposta.id).all()
+    except:
+        resposta = "not found"
+    return render_template("prestador.html", usuario=resposta, servicos=servicos)
+
+
+@app.route("/servico/<int:id>", methods=["GET"])
+def servico(id):
+    try:
+        servico = Servico.query.get_or_404(id)
+        prestador = Usuario.query.filter_by(id=servico.usuario_id).first()
+        return render_template("pagina-servicos.html", servico=servico, prestador=prestador)
+    except:
+        servico = "not found"
+        return render_template("pagina-servicos.html", servico=servico)
+
+
+
+# rotas privadas
 @app.route("/logout")
 @login_required
 def logout():
@@ -180,9 +254,6 @@ def editar_servico(id):
     return render_template("edit.html", servico=servico)
 
 
-@app.route("/")
-def index():
-    return render_template("index.html")
 
 
 @app.route("/meus-workes")
@@ -192,75 +263,6 @@ def meus_workes():
 
     return render_template("meus-workes.html", servicos=resultados)
 
-
-@app.route("/inicio")
-def inicio():
-    return render_template("index.html")
-
-
-@app.route("/buscar", methods=["POST"])
-def buscar():
-    query = request.json.get("query", "").lower()
-
-    resultados = Servico.query.filter(
-        (db.func.lower(Servico.nome).like(f"%{query}%")) |
-        (db.func.lower(Servico.local).like(f"%{query}%")) |
-        (db.func.lower(Servico.descricao).like(f"%{query}%"))
-    ).all()
-
-    print(resultados)
-
-    return jsonify({
-        "logado": current_user.is_authenticated,
-        "servicos": [s.to_dict() for s in resultados]
-    })
-
-
-@app.route("/sobre")
-def sobre():
-    return render_template("sobre.html")
-
-
-@app.route("/contato")
-def contato():
-    return render_template("contato.html")
-
-
-@app.route("/add", methods=["POST"])
-def add():
-    data = request.json
-
-    novo = Servico(
-        nome=data["nome"],
-        local=data["local"],
-        descricao=data["descricao"]
-    )
-
-    db.session.add(novo)
-    db.session.commit()
-
-    return jsonify({"status": "ok", "mensagem": "Serviço cadastrado"})
-
-
-@app.route("/prestador/<int:id>", methods=["GET"])
-def prestador(id):
-    try:
-        resposta = Usuario.query.get_or_404(id)
-        servicos = Servico.query.filter_by(usuario_id=resposta.id).all()
-    except:
-        resposta = "not found"
-    return render_template("prestador.html", usuario=resposta, servicos=servicos)
-
-
-@app.route("/servico/<int:id>", methods=["GET"])
-def servico(id):
-    try:
-        servico = Servico.query.get_or_404(id)
-        prestador = Usuario.query.filter_by(id=servico.usuario_id).first()
-        return render_template("pagina-servicos.html", servico=servico, prestador=prestador)
-    except:
-        servico = "not found"
-        return render_template("pagina-servicos.html", servico=servico)
 
 
 @app.route("/meu-perfil", methods=["GET", "POST"])
