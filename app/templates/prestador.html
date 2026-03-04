@@ -18,7 +18,19 @@
     <div class="perfil-header">
         <div class="perfil-info">
             <h1>{{usuario.nome}}</h1>
-            <p>{{usuario.email}}</p>
+            <p class="perfil-descricao">
+                {% if usuario.descricao %}
+                {{ usuario.descricao }}
+                {% endif %}
+            </p>
+            <p class="perfil-email">{{usuario.email}}</p>
+
+        </div>
+        <aside class="info-prestador">
+        <div class="perfil-upload">
+            <img id="previewFoto"
+                 src="https://st.depositphotos.com/1779253/5140/v/450/depositphotos_51405259-stock-illustration-male-avatar-profile-picture-use.jpg"
+                 alt="Foto de perfil">
         </div>
     </div>
     <section class="sessao-servico">
