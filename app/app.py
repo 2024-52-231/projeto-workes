@@ -1,11 +1,16 @@
-from flask import Flask, render_template, request, jsonify, redirect, url_for
+import os
+from flask import Flask, render_template, request, jsonify, redirect, url_for, flash
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager, login_user, login_required, logout_user, UserMixin, current_user
 from flask_bcrypt import Bcrypt
 from sqlalchemy import ForeignKey
+from werkzeug.utils import secure_filename
+from PIL import Image
 
 app = Flask(__name__)
 
+app.config["UPLOAD_FOLDER"] = 'static/uploads/perfil'
+app.config["ALLOWED_EXTENSIONS"] = {'png', 'jpg', 'jpeg'}
 app.config["SECRET_KEY"] = "secret"
 app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///database.db"
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
@@ -24,7 +29,8 @@ class Usuario(UserMixin, db.Model):
     email = db.Column(db.String(120), unique=True, nullable=False)
     senha = db.Column(db.String(120), nullable=False)
     nome = db.Column(db.String(100), nullable=False)
-    descricao = db.Column(db.String(200), nullable=True)
+    descricao = db.Column(db.String, nullable=True)
+    foto_perfil = db.Column(db.String, nullable=True)
 
 
 class Servico(db.Model):
@@ -301,6 +307,66 @@ def deletar_servico(id):
 
     return redirect(url_for("meus_workes"))
 
+
+@app.route("/upload-foto", methods=["POST"])
+@login_required
+def carregar_foto():
+    contexto = {"erro": False, "mensagem": ""}
+
+    if 'foto' not in request.files:
+        contexto.update({"erro": True, "mensagem": "Nenhum arquivo enviado."})
+        return render_template("meu-perfil.html", usuario=current_user, contexto=contexto)
+
+    file = request.files['foto']
+
+    if file.filename == '':
+        contexto.update({"erro": True, "mensagem": "Por favor, selecione uma imagem."})
+        return render_template("meu-perfil.html", usuario=current_user, contexto=contexto)
+
+    if file and allowed_file(file.filename):
+        try:
+            os.makedirs(app.config["UPLOAD_FOLDER"], exist_ok=True)
+
+            ext = file.filename.rsplit('.', 1)[1].lower()
+            filename = secure_filename(f"perfil_{current_user.id}.jpg")
+            save_path = os.path.join(app.config["UPLOAD_FOLDER"], filename)
+
+            img = Image.open(file)
+
+            if img.mode != "RGB":
+                img = img.convert("RGB")
+
+            largura_orig, altura_orig = img.size
+            target_size = 1080
+
+            if largura_orig < altura_orig:
+                nova_largura = target_size
+                nova_altura = int((target_size / largura_orig) * altura_orig)
+            else:
+                nova_altura = target_size
+                nova_largura = int((target_size / altura_orig) * largura_orig)
+
+            img = img.resize((nova_largura, nova_altura), Image.Resampling.LANCZOS)
+
+            img.save(save_path, "JPEG", quality=80)
+
+            current_user.foto_perfil = filename
+            db.session.commit()
+
+            contexto.update({"erro": False, "mensagem": "Foto de perfil atualizada com sucesso!"})
+        except Exception as e:
+            db.session.rollback()
+            contexto.update({"erro": True, "mensagem": f"Erro interno: {str(e)}"})
+    else:
+        contexto.update({"erro": True, "mensagem": "Formato inválido! Use PNG, JPG ou JPEG."})
+
+    return render_template("meu-perfil.html", usuario=current_user, contexto=contexto)
+
+
+def allowed_file(filname):
+    return '.' in filname and \
+        filname.rsplit('.', 1)[1].lower() in app.config["ALLOWED_EXTENSIONS"]
+
+
 if __name__ == "__main__":
     app.run(debug=True)
-

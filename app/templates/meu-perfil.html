@@ -16,14 +16,12 @@
     </header>
 
     <form id="profile-form" class="profile-grid" method="POST" action="/meu-perfil">
-
         <!-- FOTO -->
         <section class="card avatar-section">
             <div class="avatar-upload">
                 <div class="avatar-preview">
                     <img id="imagePreview"
-                         src="https://st.depositphotos.com/1779253/5140/v/450/depositphotos_51405259-stock-illustration-male-avatar-profile-picture-use.jpg"
-                         alt="Foto de Perfil">
+                         src="{{ url_for('static', filename='uploads/perfil/' + usuario.foto_perfil) if usuario.foto_perfil else 'https://thumbs.dreamstime.com/b/perfil-de-usu%C3%A1rio-do-vetor-avatar-padr%C3%A3o-179376714.jpg' }}">
                 </div>
                 <div class="avatar-edit">
                     <input type="file" id="imageUpload" name="foto" accept=".png, .jpg, .jpeg">
@@ -114,38 +112,98 @@
         </div>
     </div>
     {% endif %}
+    <div id="modal-foto" class="modal-overlay" style="display: none;">
+        <div class="modal-content">
+            <h2>Confirmar Nova Foto</h2>
+            <div class="avatar-preview-modal">
+                <img id="imgConfirm" src="" alt="Prévia" style="max-width: 100%; border-radius: 10px; margin: 15px 0;">
+            </div>
+            <div class="modal-actions" style="display: flex; gap: 10px; justify-content: center;">
+                <button type="button" class="btn-secondary" onclick="cancelarFoto()">Escolher Outra</button>
+                <button type="button" class="btn-primary" onclick="confirmarFoto()">Manter Esta</button>
+            </div>
+        </div>
+    </div>
 </main>
 
 <script>
+    const imageUpload = document.getElementById('imageUpload');
+    const modalFoto = document.getElementById('modal-foto');
+    const imgConfirm = document.getElementById('imgConfirm');
+    const imagePreview = document.getElementById('imagePreview');
+
+    imageUpload.addEventListener('change', function() {
+        const file = this.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                imgConfirm.src = e.target.result;
+                modalFoto.style.display = 'flex';
+            }
+            reader.readAsDataURL(file);
+        }
+    });
+
+    function confirmarFoto() {
+        const fileInput = document.getElementById('imageUpload');
+        const formData = new FormData();
+
+        formData.append('foto', fileInput.files[0]);
+
+        const btnConfirmar = document.querySelector('#modal-foto .btn-primary');
+        btnConfirmar.innerText = "Enviando...";
+        btnConfirmar.disabled = true;
+
+        fetch('/upload-foto', {
+            method: 'POST',
+            body: formData
+        })
+        .then(response => response.text())
+        .then(html => {
+            document.open();
+            document.write(html);
+            document.close();
+        })
+        .catch(error => {
+            console.error('Erro:', error);
+            alert("Erro ao conectar com o servidor.");
+            btnConfirmar.innerText = "Manter Esta";
+            btnConfirmar.disabled = false;
+        });
+    }
+
+    function cancelarFoto() {
+        imageUpload.value = "";
+        modalFoto.style.display = 'none';
+        imageUpload.click();
+    }
+
     function fecharModal() {
         const modal = document.getElementById('modal-sucesso');
         if (modal) {
             modal.style.display = 'none';
+            window.location.href = "/meu-perfil";
         }
     }
 
-    {% if sucesso %}
-        setTimeout(fecharModal, 3000);
-    {% endif %}
+    document.getElementById("profile-form").addEventListener("submit", function(e) {
+        const senhaAtual = document.getElementById("senha_atual").value;
+        const novaSenha = document.getElementById("nova_senha").value;
+        const confirmarSenha = document.getElementById("confirmar_senha").value;
 
-document.getElementById("profile-form").addEventListener("submit", function(e) {
-    const senhaAtual = document.getElementById("senha_atual").value;
-    const novaSenha = document.getElementById("nova_senha").value;
-    const confirmarSenha = document.getElementById("confirmar_senha").value;
+        if(!senhaAtual) return;
 
-    if(!senhaAtual) return;
-
-    if (novaSenha || confirmarSenha) {
-        if (novaSenha !== confirmarSenha) {
-            e.preventDefault();
-            alert("As novas senhas não coincidem!");
+        if (novaSenha || confirmarSenha) {
+            if (novaSenha !== confirmarSenha) {
+                e.preventDefault();
+                alert("As novas senhas não coincidem!");
+            }
+            if (novaSenha.length < 6) {
+                e.preventDefault();
+                alert("A nova senha deve ter no mínimo 6 caracteres.");
+            }
         }
-        if (novaSenha.length < 6) {
-            e.preventDefault();
-            alert("A nova senha deve ter no mínimo 6 caracteres.");
-        }
-    }
-});
+    });
 </script>
 
 </body>
