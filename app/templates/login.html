@@ -17,13 +17,13 @@
 </header>
 
 <div class="container-login">
-    <div class="logo-login">
+    <a href="{{ url_for('index') }}" class="logo-login">
         <img src="{{ url_for('static', filename='img/workes.png') }}" width="60" height="60">
-    </div>
+    </a>
 
     <div class="titulo-login">
-        <h2>Criar conta</h2>
-        <p>Preencha seus dados abaixo:</p>
+        <h2>Bem vindo!</h2>
+        <p>Para prosseguir, informe seus dados:</p>
     </div>
 
     <form method="POST">
@@ -42,13 +42,13 @@
         {% endif %}
 
         <div class="botao">
-            <input type="submit" value="Criar conta" id="botao">
+            <input type="submit" value="Entrar" id="botao">
         </div>
     </form>
 
     <p style="margin-bottom:20px;">
-        Já possui uma conta?
-        <a href="{{ url_for('login') }}">Entrar</a>
+         Não tem conta?
+        <a href="{{ url_for('registrar') }}">Criar conta</a>
     </p>
 </div>
 
