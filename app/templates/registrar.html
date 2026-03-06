@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Criar conta</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="shortcut icon" href="{{url_for('static', filename='img/workes.ico')}}" type="image/x-icon">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/login.css') }}">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700&display=swap" rel="stylesheet">
@@ -10,7 +11,13 @@
 
 <body>
 
-<div class="container-login">
+<header class="site-header">
+        <div class="menu-icon">
+            <i data-lucide="menu" size="32"></i>
+        </div>
+    </header>
+
+<div class="main-content">
     <div class="logo-login">
         <img src="{{ url_for('static', filename='img/workes.png') }}" width="60" height="60">
     </div>
