@@ -20,14 +20,14 @@
                 <h2>{{servico.nome}}</h2>
                 <p>{{servico.descricao}}</p>
                 <p class="localizacao">{{servico.cidade}}-{{servico.estado}}</p>
-<!--                <span class="preco">R$ 150,00</span>-->
+                <!--                <span class="preco">R$ 150,00</span>-->
             </section>
 
             <aside class="info-prestador">
                 <div class="perfil-upload">
 
                     <img id="previewFoto"
-                         src="{{ url_for('static', filename='uploads/perfil/' + prestador.foto_perfil) if prestador.foto_perfil else 'https://thumbs.dreamstime.com/b/perfil-de-usu%C3%A1rio-do-vetor-avatar-padr%C3%A3o-179376714.jpg' }}"
+                         src="{{ prestador.foto_perfil if prestador.foto_perfil else 'https://thumbs.dreamstime.com/b/perfil-de-usu%C3%A1rio-do-vetor-avatar-padr%C3%A3o-179376714.jpg' }}"
                          alt="Foto de perfil">
                 </div>
                 <h3 style="text-transform:uppercase;">{{prestador.nome}}</h3>

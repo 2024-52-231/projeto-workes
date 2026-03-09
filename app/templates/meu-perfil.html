@@ -21,7 +21,7 @@
             <div class="avatar-upload">
                 <div class="avatar-preview">
                     <img id="imagePreview"
-                         src="{{ url_for('static', filename='uploads/perfil/' + usuario.foto_perfil) if usuario.foto_perfil else 'https://thumbs.dreamstime.com/b/perfil-de-usu%C3%A1rio-do-vetor-avatar-padr%C3%A3o-179376714.jpg' }}">
+                         src="{{ usuario.foto_perfil if usuario.foto_perfil else 'https://thumbs.dreamstime.com/b/perfil-de-usu%C3%A1rio-do-vetor-avatar-padr%C3%A3o-179376714.jpg' }}" />
                 </div>
                 <div class="avatar-edit">
                     <input type="file" id="imageUpload" name="foto" accept=".png, .jpg, .jpeg">
