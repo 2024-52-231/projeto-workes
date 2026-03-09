@@ -27,11 +27,11 @@
 
         </div>
         <aside class="info-prestador">
-        <div class="perfil-upload">
-            <img id="previewFoto"
-                src="{{ url_for('static', filename='uploads/perfil/' + usuario.foto_perfil) if usuario.foto_perfil else 'https://thumbs.dreamstime.com/b/perfil-de-usu%C3%A1rio-do-vetor-avatar-padr%C3%A3o-179376714.jpg' }}"
-                 alt="Foto de perfil">
-        </div>
+            <div class="perfil-upload">
+                <img id="previewFoto"
+                     src="{{ usuario.foto_perfil if usuario.foto_perfil else 'https://thumbs.dreamstime.com/b/perfil-de-usu%C3%A1rio-do-vetor-avatar-padr%C3%A3o-179376714.jpg' }}"
+                     alt="Foto de perfil">
+            </div>
     </div>
     <section class="sessao-servico">
         <h2 class="sessao-titulo">Serviços Cadastrados</h2>

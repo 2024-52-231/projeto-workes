@@ -1,3 +1,4 @@
 .idea/
+app/.env
 app/instance
 app/static/uploads

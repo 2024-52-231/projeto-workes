@@ -1,4 +1,5 @@
 import os
+import io
 from flask import Flask, render_template, request, jsonify, redirect, url_for, flash
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager, login_user, login_required, logout_user, UserMixin, current_user
@@ -6,13 +7,17 @@ from flask_bcrypt import Bcrypt
 from sqlalchemy import ForeignKey
 from werkzeug.utils import secure_filename
 from PIL import Image
+from dotenv import load_dotenv
+from vercel_blob import put
+
+load_dotenv()
 
 app = Flask(__name__)
 
 app.config["UPLOAD_FOLDER"] = 'static/uploads/perfil'
 app.config["ALLOWED_EXTENSIONS"] = {'png', 'jpg', 'jpeg'}
 app.config["SECRET_KEY"] = "secret"
-app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///database.db"
+app.config["SQLALCHEMY_DATABASE_URI"] = os.getenv('DATABASE_URL')
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 
 db = SQLAlchemy(app)
@@ -200,14 +205,14 @@ def cadastro_servicos():
     sucesso = None
 
     if request.method == "POST":
-        nome = request.form["nome"].capitalize()
+        nome = request.form["nome"]
         local = f"{request.form['cidade']} - {request.form['uf']}"
-        cep = request.form["cep"]
+        cep = request.form["cep"].replace("-", "")
         logradouro = request.form["logradouro"]
         cidade = request.form['cidade']
         estado = request.form['uf']
         numero = request.form['numero']
-        descricao = request.form["descricao"].capitalize()
+        descricao = request.form["descricao"]
         telefone = request.form.get("telefone")
         link = request.form.get("link")
         usuario_id = current_user.id
@@ -243,16 +248,16 @@ def editar_servico(id):
         return redirect(url_for("index"))
 
     if request.method == "POST":
-        servico.nome = request.form["nome"].capitalize()
+        servico.nome = request.form["nome"]
         servico.local = f"{request.form['cidade']} - {request.form['uf']}"
-        servico.cep = request.form["cep"]
+        servico.cep = request.form["cep"].replace("-", "")
         servico.logradouro = request.form["logradouro"]
         servico.cidade = request.form['cidade']
         servico.estado = request.form['uf']
         servico.numero = request.form['numero']
         servico.telefone = request.form.get("telefone")
         servico.link = request.form.get("link")
-        servico.descricao = request.form["descricao"].capitalize()
+        servico.descricao = request.form["descricao"]
 
         db.session.commit()
         return redirect(url_for("meus_workes"))
@@ -284,8 +289,8 @@ def meu_perfil():
 
         usuario = Usuario.query.filter_by(id=current_user.id).first()
 
-        usuario.nome = request.form["nome"].capitalize()
-        usuario.descricao = request.form["bio"].capitalize()
+        usuario.nome = request.form["nome"]
+        usuario.descricao = request.form["bio"]
         usuario.email = request.form["email"]
 
         db.session.commit()
@@ -348,9 +353,22 @@ def carregar_foto():
 
             img = img.resize((nova_largura, nova_altura), Image.Resampling.LANCZOS)
 
-            img.save(save_path, "JPEG", quality=80)
+            if not os.environ.get('VERCEL'):
+                filename = secure_filename(f"perfil_{current_user.id}.jpg")
+                save_path = os.path.join(app.config["UPLOAD_FOLDER"], filename).replace("\\", "/")
+                print(save_path)
+                os.makedirs(app.config["UPLOAD_FOLDER"], exist_ok=True)
+                img.save(save_path, "JPEG", quality=80)
+                current_user.foto_perfil = save_path
+            else:
+                buffer = io.BytesIO()
+                img.save(buffer, format="JPEG", quality=80)
+                buffer.seek(0)
 
-            current_user.foto_perfil = filename
+                blob = put(f"perfil_{current_user.id}.jpg", buffer.read(), {"access": "public", "allowOverwrite": True})
+
+                current_user.foto_perfil = blob.get('url')
+
             db.session.commit()
 
             contexto.update({"erro": False, "mensagem": "Foto de perfil atualizada com sucesso!"})
