@@ -293,6 +293,9 @@ def meu_perfil():
         usuario.descricao = request.form["bio"]
         usuario.email = request.form["email"]
 
+        if len(request.form["senha_atual"]) > 0:
+            usuario.senha = bcrypt.generate_password_hash(request.form["nova_senha"]).decode("utf-8")
+
         db.session.commit()
         return render_template("meu-perfil.html", usuario=current_user,
                                contexto={"mensagem": "Alterações aplicadas com sucesso", "erro": False})
