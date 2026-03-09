@@ -330,12 +330,6 @@ def carregar_foto():
 
     if file and allowed_file(file.filename):
         try:
-            os.makedirs(app.config["UPLOAD_FOLDER"], exist_ok=True)
-
-            ext = file.filename.rsplit('.', 1)[1].lower()
-            filename = secure_filename(f"perfil_{current_user.id}.jpg")
-            save_path = os.path.join(app.config["UPLOAD_FOLDER"], filename)
-
             img = Image.open(file)
 
             if img.mode != "RGB":
