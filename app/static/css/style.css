@@ -40,7 +40,7 @@ body {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 16px 64px;
+    /* padding: 16px 64px; */
     top: 0;
     z-index: 1000;
     margin: 0 auto;
@@ -273,7 +273,11 @@ body {
 .header-links{
     display: none;
 }
-@media (min-width: 768px) {
+@media (min-width: 1023px) {
+    .header-content{
+        padding: 0 1rem;
+    }
+
     .header-links {
         display: block;
     }

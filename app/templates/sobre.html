@@ -4,43 +4,55 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sobre Nós</title>
-    <link rel="shortcut icon" href="../../psg-sobre-workes/icone-site.jpg" type="image/x-icon">
-    <link href="https://fonts.googleapis.com/css?family=Poppins&display=swap" rel="stylesheet">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@100..900&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="../static/css/styles-about.css">
+    <link rel="shortcut icon" href="../../psg-sobre-workes/icone-site.jpg" type="image/x-icon">
     <link rel="shortcut icon" href="{{url_for('static', filename='img/workes.ico')}}" type="image/x-icon">
+    <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@100..900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Poppins&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../static/css/style.css">
+    <link rel="stylesheet" href="../static/css/styles-about.css">
 </head>
 <body>
-    <a href="{{ url_for('index') }}" style="color:black; text-decoration:none;">Voltar</a>
-<h3>
-    O WorkES funcionará como um “iFood do emprego”, conectando prestadores e <br> clientes em um só lugar.
-    O app permitirá que usuários encontrem serviços de forma rápida e segura, enquanto os profissionais
-    terão visibilidade, oportunidades de ,<br> novos trabalhos e um espaço confiável para divulgar seus serviços. <br>
-</h3>
 
-<h1>EQUIPE COLABORADORA</h1>
+{% include "components/header.html" %}
 
+<main class="sobre-main">
+    <h3 class="sobre-texto">O WorkES funciona como um “iFood do emprego”, conectando prestadores e clientes em um só
+        lugar. O app permitire que usuários encontrem serviços de forma rápida e segura, enquanto os profissionais tem
+        visibilidade,
+        oportunidades de novos trabalhos e um espaço confiável para divulgar seus serviços.</h3>
 
+    <h1 class="sobre-titulo">EQUIPE COLABORADORA</h1>
 
-<div class="container-responsivo">
-    <div class="fade-palavras a">
-        <div class="item1"><a href="https://github.com/santosgabriella"><span>Gabriella</span></a></div>
-        <div class="item2"><a href="https://github.com/GomesHillary"><span>Hillary</span></a></div>
-        <div class="item3"><a href="#"><span>Amanda</span></a></div>
-        <div class="item4"><a href="#"><span>Jaqueline</span></a></div>
-        <div class="item5"><a href="#"><span>Guylherme</span></a></div>
-        <div class="item6"><a href="#"><span>Fabiana</span></a></div><br>
-        <div class="item7"><a href="#"><span>Kairy</span></a></div>
-        <div class="item8"><a href="#"><span>Yasmim</span></a></div>
-        <div class="item9"><a href="#"><span>Matheus</span></a></div>
-        <div class="item10"><a href="#"><span>Luciano</span></a></div>
+    <div class="container-responsivo">
+        <div class="fade-palavras">
+            <div class="item"><a href="#"><span>Amanda</span></a></div>
+            <div class="item"><a href="#"><span>Fabiana</span></a></div>
+            <div class="item"><a target="_blank" href="https://github.com/santosgabriella"><span>Gabriella</span></a>
+            </div>
+            <div class="item"><a href="#"><span>Guylherme</span></a></div>
+            <div class="item"><a target="_blank" href="https://github.com/GomesHillary"><span>Hillary</span></a></div>
+            <div class="item"><a href="#"><span>Jaqueline</span></a></div>
+            <div class="item"><a href="#"><span>Kairy</span></a></div>
+            <div class="item"><a href="#"><span>Luciano</span></a></div>
+            <div class="item"><a href="#"><span>Matheus</span></a></div>
+            <div class="item"><a href="#"><span>Yasmim</span></a></div>
+        </div>
     </div>
-</div>
+</main>
 
+<footer class="site-footer">
+    <p>&copy; 2025 Workes. Todos os direitos reservados.</p>
+</footer>
 
-
-
+<script>
+    const links = document.querySelectorAll(".item a");
+    let delay = 0.1;
+    links.forEach(element => {
+        element.style.animationDelay = `${delay}s`;
+        delay += 0.1;
+    });
+</script>
 </body>
 </html>
