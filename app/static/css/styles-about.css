@@ -97,9 +97,21 @@ h1 {
     background-color: var(--orange-bright);
 }
 
+.foto-turma {
+    max-width: 800px;
+    max-height: 400px;
+    object-fit: cover;
+    display: block;
+    margin: 20px auto;
+    border-radius: 15px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+}
+
+
 @media (max-width: 1023px) {
     .sobre-texto { padding: 0 1rem;}
     .box-nomes { font-size: 20px; padding: 20px; }
     .fade-palavras { padding: 0 1rem; gap: 10px; grid-template-columns: repeat(2, 1fr); }
     .fade-palavras a { font-size: 16px; padding: 12px 25px; width: 100%; max-width: 280px; }
+    .foto-turma { width: 100%; }
 }
